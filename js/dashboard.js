@@ -1,4 +1,4 @@
-/* ISP PM Dashboard — interactive Power BI-style portfolio view */
+/* PMO Dashboard — ISP Project Management · executive portfolio analytics */
 
 let DATA = null;
 let charts = {};

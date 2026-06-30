@@ -1,4 +1,4 @@
-# Power BI Desktop Build Guide — ISP PM Dashboard
+# Power BI Desktop Build Guide — PMO Dashboard for ISP Project
 
 Complete step-by-step guide to recreate this dashboard as a native `.pbix` file in Power BI Desktop. Estimated build time: **3–4 hours**.
 
@@ -262,7 +262,7 @@ SWITCH(
    - Font: Segoe UI
 2. Page size: **16:9**
 3. Add **page navigator** (Insert → Buttons → Navigator) for 5-page nav
-4. Add header text: "Nelco ISP PM — Portfolio Analytics"
+4. Add header text: "PMO Dashboard — ISP Project Management"
 5. Add "Last refreshed" card using `MAX(Date_Dimension[Date])`
 
 ---
@@ -300,7 +300,7 @@ SWITCH(
 - [ ] Slicers cross-filter all visuals on each page
 - [ ] RAG conditional formatting applied
 - [ ] Drill-through configured
-- [ ] File saved as `Nelco_ISP_PM_Dashboard.pbix`
+- [ ] File saved as `PMO_Dashboard_ISP_Project.pbix`
 
 ---
 

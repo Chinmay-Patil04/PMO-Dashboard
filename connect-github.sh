@@ -1,5 +1,5 @@
 #!/bin/bash
-# Connect & push ISP PM Dashboard to GitHub
+# Connect & push PMO Dashboard (ISP Project Management) to GitHub
 # Repo: https://github.com/Chinmay-Patil04/PMO-Dashboard
 
 set -e
