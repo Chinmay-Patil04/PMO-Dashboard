@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ISP Project Management Dashboard | Nelco Portfolio Analytics</title>
+<meta name="description" content="Professional ISP/Telecom project portfolio dashboard — SD-WAN, MPLS, VSAT delivery tracking for enterprise clients.">
+<link rel="stylesheet" href="css/dashboard.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+</head>
+<body>
+
+<div id="loading" class="loading">Loading portfolio data…</div>
+
+<div id="app" style="display:none;width:100%;">
+
+<!-- Sidebar -->
+<nav class="sidebar">
+  <div class="sidebar-brand">
+    <h1>Nelco ISP PM</h1>
+    <span>Portfolio Analytics Dashboard</span>
+  </div>
+
+  <div class="nav-section">Reports</div>
+  <button class="nav-item active" data-page="overview" data-title="Executive Overview">
+    <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/></svg>
+    Executive Overview
+  </button>
+  <button class="nav-item" data-page="sites" data-title="Sites & Milestones">
+    <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M3 21h18M5 21V7l7-4 7 4v14M9 21v-6h6v6"/></svg>
+    Sites & Milestones
+  </button>
+  <button class="nav-item" data-page="tasks" data-title="Tasks & WBS">
+    <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
+    Tasks & WBS
+  </button>
+  <button class="nav-item" data-page="raid" data-title="RAID & SLA Governance">
+    <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+    RAID & SLA
+  </button>
+  <button class="nav-item" data-page="resources" data-title="Resources & Cost">
+    <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+    Resources & Cost
+  </button>
+
+  <div class="sidebar-footer">
+    <div class="resume-badge">Portfolio Demo</div>
+    <div style="margin-top:8px">Power BI–style ISP PM analytics<br>Built for resume &amp; GitHub</div>
+  </div>
+</nav>
+
+<!-- Main -->
+<div class="main">
+  <header class="topbar">
+    <div>
+      <h2 id="page-title">Executive Overview</h2>
+      <div class="topbar-meta" id="as-of"></div>
+    </div>
+    <div class="resume-badge">Live Demo · GitHub Pages Ready</div>
+  </header>
+
+  <!-- Global Slicers -->
+  <div class="slicers">
+    <div class="slicer"><label>Client</label><select id="filter-client"></select></div>
+    <div class="slicer"><label>Region</label><select id="filter-region"></select></div>
+    <div class="slicer"><label>RAG Status</label>
+      <select id="filter-rag">
+        <option value="All">All</option>
+        <option value="Green">Green</option>
+        <option value="Amber">Amber</option>
+        <option value="Red">Red</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="content">
+
+    <!-- PAGE 1: Overview -->
+    <div id="page-overview" class="page active">
+      <div class="kpi-row" id="overview-kpis"></div>
+      <div class="grid-2-1">
+        <div class="visual">
+          <div class="visual-header"><span class="visual-title">Project Portfolio</span></div>
+          <div class="table-scroll">
+            <table class="data-table">
+              <thead><tr>
+                <th>ID</th><th>Project</th><th>Client</th><th>Type</th><th>Region</th>
+                <th>PM</th><th>RAG</th><th>Progress</th><th>Budget</th><th>Spend</th><th>Sites</th>
+              </tr></thead>
+              <tbody id="overview-projects"></tbody>
+            </table>
+          </div>
+        </div>
+        <div>
+          <div class="visual"><div class="visual-header"><span class="visual-title">RAG Distribution</span></div><div class="chart-wrap sm"><canvas id="chart-rag"></canvas></div></div>
+          <div class="visual"><div class="visual-header"><span class="visual-title">Project Type Mix</span></div><div class="chart-wrap sm"><canvas id="chart-type"></canvas></div></div>
+        </div>
+      </div>
+      <div class="grid-2">
+        <div class="visual"><div class="visual-header"><span class="visual-title">Weekly Completion Trend</span></div><div class="chart-wrap"><canvas id="chart-weekly"></canvas></div></div>
+        <div class="visual"><div class="visual-header"><span class="visual-title">Spend by Client (₹ Cr)</span></div><div class="chart-wrap"><canvas id="chart-client-spend"></canvas></div></div>
+      </div>
+    </div>
+
+    <!-- PAGE 2: Sites -->
+    <div id="page-sites" class="page">
+      <div class="kpi-row" id="sites-kpis"></div>
+      <div class="grid-3">
+        <div class="visual"><div class="visual-header"><span class="visual-title">Sites by Status</span></div><div class="chart-wrap"><canvas id="chart-site-status"></canvas></div></div>
+        <div class="visual"><div class="visual-header"><span class="visual-title">Sites by Region</span></div><div class="chart-wrap"><canvas id="chart-site-region"></canvas></div></div>
+        <div class="visual"><div class="visual-header"><span class="visual-title">SLA Performance</span></div><div class="chart-wrap"><canvas id="chart-site-sla"></canvas></div></div>
+      </div>
+      <div class="visual">
+        <div class="visual-header"><span class="visual-title">Site-Level Detail (Top 50)</span></div>
+        <div class="table-scroll">
+          <table class="data-table">
+            <thead><tr>
+              <th>Site ID</th><th>Site Name</th><th>Client</th><th>City</th><th>Region</th>
+              <th>Bandwidth</th><th>Status</th><th>Delay</th><th>SLA</th><th>Engineer</th>
+            </tr></thead>
+            <tbody id="sites-table"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- PAGE 3: Tasks -->
+    <div id="page-tasks" class="page">
+      <div class="grid-3">
+        <div class="visual"><div class="visual-header"><span class="visual-title">Tasks by WBS Phase</span></div><div class="chart-wrap"><canvas id="chart-task-phase"></canvas></div></div>
+        <div class="visual"><div class="visual-header"><span class="visual-title">Task Status</span></div><div class="chart-wrap"><canvas id="chart-task-status"></canvas></div></div>
+        <div class="visual"><div class="visual-header"><span class="visual-title">Phase Completion %</span></div><div class="chart-wrap"><canvas id="chart-phase-pct"></canvas></div></div>
+      </div>
+      <div class="visual">
+        <div class="visual-header"><span class="visual-title">WBS Progress Matrix</span></div>
+        <div class="table-scroll">
+          <table class="data-table">
+            <thead><tr>
+              <th>ID</th><th>Project</th><th>PM</th><th>RAG</th><th>Overall</th>
+              <th>Init</th><th>Survey</th><th>ROW</th><th>Procure</th><th>Install</th><th>Test</th><th>Go-Live</th><th>Hypercare</th>
+            </tr></thead>
+            <tbody id="wbs-table"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- PAGE 4: RAID -->
+    <div id="page-raid" class="page">
+      <div class="kpi-row" id="raid-kpis"></div>
+      <div class="grid-2">
+        <div class="visual"><div class="visual-header"><span class="visual-title">RAID by Type</span></div><div class="chart-wrap"><canvas id="chart-raid-type"></canvas></div></div>
+        <div class="visual"><div class="visual-header"><span class="visual-title">Severity Distribution</span></div><div class="chart-wrap"><canvas id="chart-raid-severity"></canvas></div></div>
+      </div>
+      <div class="visual"><div class="visual-header"><span class="visual-title">SLA Target vs Achieved</span></div><div class="chart-wrap lg"><canvas id="chart-sla"></canvas></div></div>
+      <div class="visual">
+        <div class="visual-header"><span class="visual-title">Open RAID Items</span></div>
+        <div class="table-scroll">
+          <table class="data-table">
+            <thead><tr>
+              <th>ID</th><th>Type</th><th>Title</th><th>Project</th><th>Severity</th>
+              <th>Owner</th><th>Status</th><th>Impact</th><th>Due</th>
+            </tr></thead>
+            <tbody id="raid-table"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- PAGE 5: Resources -->
+    <div id="page-resources" class="page">
+      <div class="kpi-row" id="res-kpis"></div>
+      <div class="grid-2">
+        <div class="visual"><div class="visual-header"><span class="visual-title">Team by Role</span></div><div class="chart-wrap"><canvas id="chart-res-role"></canvas></div></div>
+        <div class="visual"><div class="visual-header"><span class="visual-title">Top Utilization %</span></div><div class="chart-wrap"><canvas id="chart-util"></canvas></div></div>
+      </div>
+      <div class="grid-2">
+        <div class="visual"><div class="visual-header"><span class="visual-title">Monthly Budget vs Actual (₹ Cr)</span></div><div class="chart-wrap"><canvas id="chart-budget"></canvas></div></div>
+        <div class="visual"><div class="visual-header"><span class="visual-title">Cost by Category (₹ Cr)</span></div><div class="chart-wrap"><canvas id="chart-cost-cat"></canvas></div></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+</div>
+
+<script src="js/dashboard.js"></script>
+</body>
+</html>
