@@ -5,11 +5,14 @@ let charts = {};
 let filters = { client: 'All', region: 'All', rag: 'All' };
 
 const COLORS = {
-  accent: '#0078d4',
-  green: '#107c10',
-  amber: '#ca5010',
-  red: '#d13438',
-  palette: ['#0078d4','#107c10','#ca5010','#8764b8','#00b7c3','#d13438','#498205','#ff8c00']
+  accent: '#2f6fed',
+  blueSoft: '#76a1ff',
+  navy: '#13284a',
+  green: '#18864b',
+  amber: '#cc7a00',
+  red: '#cc3d4e',
+  neutral: '#9aacc2',
+  palette: ['#2f6fed', '#18864b', '#cc7a00', '#6f56d9', '#1ea5b8', '#cc3d4e', '#4b7fdb', '#7f8ea3']
 };
 
 const fmt = (n, dec = 0) => Number(n).toLocaleString('en-IN', { maximumFractionDigits: dec });
@@ -281,8 +284,35 @@ function renderProjectTable(id, projs) {
 function chartDefaults() {
   return {
     responsive: true, maintainAspectRatio: false,
-    plugins: { legend: { labels: { font: { size: 11 }, boxWidth: 12 } } },
-    scales: {}
+    plugins: {
+      legend: {
+        labels: {
+          font: { size: 11, weight: '600' },
+          boxWidth: 12,
+          color: '#5f7088',
+          usePointStyle: true,
+          pointStyle: 'circle'
+        }
+      },
+      tooltip: {
+        backgroundColor: 'rgba(19, 40, 74, 0.96)',
+        titleColor: '#ffffff',
+        bodyColor: '#e8eef8',
+        padding: 12,
+        cornerRadius: 12,
+        displayColors: true
+      }
+    },
+    scales: {
+      x: {
+        ticks: { color: '#6b7c92', font: { size: 11 } },
+        grid: { color: 'rgba(214, 224, 236, 0.55)', drawBorder: false }
+      },
+      y: {
+        ticks: { color: '#6b7c92', font: { size: 11 } },
+        grid: { color: 'rgba(214, 224, 236, 0.55)', drawBorder: false }
+      }
+    }
   };
 }
 
@@ -291,8 +321,8 @@ function makeDoughnut(id, labels, data, colors) {
   if (!ctx) return;
   charts[id] = new Chart(ctx, {
     type: 'doughnut',
-    data: { labels, datasets: [{ data, backgroundColor: colors || COLORS.palette }] },
-    options: { ...chartDefaults(), cutout: '55%' }
+    data: { labels, datasets: [{ data, backgroundColor: colors || COLORS.palette, borderWidth: 0, hoverOffset: 8 }] },
+    options: { ...chartDefaults(), cutout: '62%' }
   });
 }
 
@@ -303,7 +333,7 @@ function makeBar(id, labels, data, horizontal, suffix) {
   if (!horizontal) { opts.scales = { y: { beginAtZero: true, max: suffix ? 100 : undefined } }; }
   charts[id] = new Chart(ctx, {
     type: 'bar',
-    data: { labels, datasets: [{ data, backgroundColor: COLORS.accent, borderRadius: 4 }] },
+    data: { labels, datasets: [{ data, backgroundColor: COLORS.accent, borderRadius: 8, maxBarThickness: 22 }] },
     options: { ...opts, indexAxis: horizontal ? 'y' : 'x' }
   });
 }
@@ -316,7 +346,13 @@ function makeLine(id, labels, datasets) {
   charts[id] = new Chart(ctx, {
     type: 'line',
     data: { labels, datasets },
-    options: { ...chartDefaults(), scales: { y: { beginAtZero: false } } }
+    options: {
+      ...chartDefaults(),
+      scales: {
+        ...chartDefaults().scales,
+        y: { ...chartDefaults().scales.y, beginAtZero: false }
+      }
+    }
   });
 }
 
@@ -329,10 +365,16 @@ function makeGroupedBar(id, labels, target, achieved) {
       labels,
       datasets: [
         { label: 'Target %', data: target, backgroundColor: '#c8c6c4', borderRadius: 4 },
-        { label: 'Achieved %', data: achieved, backgroundColor: COLORS.accent, borderRadius: 4 }
+        { label: 'Achieved %', data: achieved, backgroundColor: COLORS.accent, borderRadius: 8 }
       ]
     },
-    options: { ...chartDefaults(), scales: { y: { beginAtZero: false, min: 85, max: 100 } } }
+    options: {
+      ...chartDefaults(),
+      scales: {
+        ...chartDefaults().scales,
+        y: { ...chartDefaults().scales.y, beginAtZero: false, min: 85, max: 100 }
+      }
+    }
   });
 }
 
