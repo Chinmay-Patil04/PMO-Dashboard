@@ -59,6 +59,24 @@
     <div class="resume-badge">Live Demo · GitHub Pages Ready</div>
   </header>
 
+  <section class="hero-strip">
+    <div class="hero-panel hero-primary">
+      <div class="eyebrow">PMO Control Centre</div>
+      <h3>Enterprise-grade visibility for ISP rollout delivery</h3>
+      <p>Track portfolio health, execution risk, SLA adherence, rollout velocity, and cost performance in one executive dashboard.</p>
+    </div>
+    <div class="hero-panel hero-metric">
+      <span class="hero-label">Primary focus</span>
+      <strong>Portfolio Governance</strong>
+      <small>Delivery, RAID, SLA, WBS, and spend control</small>
+    </div>
+    <div class="hero-panel hero-metric">
+      <span class="hero-label">Presentation style</span>
+      <strong>Boardroom Ready</strong>
+      <small>Professional visuals for GitHub, resume, and interviews</small>
+    </div>
+  </section>
+
   <!-- Global Slicers -->
   <div class="slicers">
     <div class="slicer"><label>Client</label><select id="filter-client"></select></div>
@@ -77,6 +95,12 @@
 
     <!-- PAGE 1: Overview -->
     <div id="page-overview" class="page active">
+      <div class="section-intro">
+        <div>
+          <div class="section-kicker">Executive Summary</div>
+          <p>Monitor project health, budget performance, rollout progress, and portfolio distribution with a leadership-friendly overview.</p>
+        </div>
+      </div>
       <div class="kpi-row" id="overview-kpis"></div>
       <div class="grid-2-1">
         <div class="visual">
@@ -104,6 +128,12 @@
 
     <!-- PAGE 2: Sites -->
     <div id="page-sites" class="page">
+      <div class="section-intro">
+        <div>
+          <div class="section-kicker">Field Delivery</div>
+          <p>Review site rollout execution, SLA risk, milestone delay, and regional delivery distribution across the active project sample.</p>
+        </div>
+      </div>
       <div class="kpi-row" id="sites-kpis"></div>
       <div class="grid-3">
         <div class="visual"><div class="visual-header"><span class="visual-title">Sites by Status</span></div><div class="chart-wrap"><canvas id="chart-site-status"></canvas></div></div>
@@ -126,6 +156,12 @@
 
     <!-- PAGE 3: Tasks -->
     <div id="page-tasks" class="page">
+      <div class="section-intro">
+        <div>
+          <div class="section-kicker">Work Breakdown Structure</div>
+          <p>Track phase-level execution progress from initiation through hypercare and identify uneven delivery across rollout stages.</p>
+        </div>
+      </div>
       <div class="grid-3">
         <div class="visual"><div class="visual-header"><span class="visual-title">Tasks by WBS Phase</span></div><div class="chart-wrap"><canvas id="chart-task-phase"></canvas></div></div>
         <div class="visual"><div class="visual-header"><span class="visual-title">Task Status</span></div><div class="chart-wrap"><canvas id="chart-task-status"></canvas></div></div>
@@ -147,6 +183,12 @@
 
     <!-- PAGE 4: RAID -->
     <div id="page-raid" class="page">
+      <div class="section-intro">
+        <div>
+          <div class="section-kicker">Governance and Risk</div>
+          <p>Assess issue severity, open risks, dependency exposure, and SLA achievement against target service commitments.</p>
+        </div>
+      </div>
       <div class="kpi-row" id="raid-kpis"></div>
       <div class="grid-2">
         <div class="visual"><div class="visual-header"><span class="visual-title">RAID by Type</span></div><div class="chart-wrap"><canvas id="chart-raid-type"></canvas></div></div>
@@ -169,6 +211,12 @@
 
     <!-- PAGE 5: Resources -->
     <div id="page-resources" class="page">
+      <div class="section-intro">
+        <div>
+          <div class="section-kicker">Capacity and Cost</div>
+          <p>View resource utilization, monthly budget movement, and major cost drivers to support execution planning and control.</p>
+        </div>
+      </div>
       <div class="kpi-row" id="res-kpis"></div>
       <div class="grid-2">
         <div class="visual"><div class="visual-header"><span class="visual-title">Team by Role</span></div><div class="chart-wrap"><canvas id="chart-res-role"></canvas></div></div>

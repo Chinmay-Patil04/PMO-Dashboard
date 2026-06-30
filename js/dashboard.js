@@ -89,6 +89,7 @@ function renderPage(page) {
   document.getElementById(`page-${page}`).classList.add('active');
   const fn = { overview: renderOverview, sites: renderSites, tasks: renderTasks, raid: renderRaid, resources: renderResources };
   fn[page]();
+  animateCards();
 }
 
 /* ── Page 1: Executive Overview ── */
@@ -284,6 +285,10 @@ function renderProjectTable(id, projs) {
 function chartDefaults() {
   return {
     responsive: true, maintainAspectRatio: false,
+    animation: {
+      duration: 900,
+      easing: 'easeOutQuart'
+    },
     plugins: {
       legend: {
         labels: {
@@ -314,6 +319,20 @@ function chartDefaults() {
       }
     }
   };
+}
+
+function animateCards() {
+  document.querySelectorAll('.kpi-card, .visual').forEach((el, idx) => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(10px)';
+    requestAnimationFrame(() => {
+      setTimeout(() => {
+        el.style.transition = 'opacity .34s ease, transform .34s ease';
+        el.style.opacity = '1';
+        el.style.transform = 'translateY(0)';
+      }, idx * 35);
+    });
+  });
 }
 
 function makeDoughnut(id, labels, data, colors) {
